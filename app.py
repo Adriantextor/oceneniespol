@@ -5,21 +5,16 @@ import streamlit as st
 
 st.set_page_config(page_title="Ocenenie firmy", layout="centered")
 
-# ---------------------------------------------------------------------------
+
 # JEDNODUCHÁ "PRIHLASOVACIA" VRSTVA
-# Poznámka: pre účely case study stačí demo login. Nie je to produkčná
-# autentifikácia (žiadny hashing hesiel, žiadna DB, žiadna registrácia) -
-# dá sa to na pohovore otvorene povedať a vysvetliť, čo by sa spravilo
-# inak v reálnej appke (napr. hashované heslá, registrácia, session
-# management cez DB).
-# ---------------------------------------------------------------------------
+# Poznámka: pre účely case study stačí demo login. Nie je to produkčná aplikácia, takže bezpečnosť nie je prioritou.
 
 DEMO_USERNAME = "demo"
 DEMO_PASSWORD = "demo123"
 
 # Odvetvové násobky EBITDA (ilustračné, zjednodušené hodnoty)
 # V reálnej appke by tieto čísla pochádzali z databázy trhových dát
-# (napr. Damodaran multiples, lokálne M&A transakcie a pod.)
+
 INDUSTRY_MULTIPLES = {
     "Obchod / maloobchod": 3.5,
     "Výroba": 4.5,
@@ -123,7 +118,7 @@ def calculate_valuation(revenue, ebitda, net_profit, industry, years_in_business
     """
     base_multiple = INDUSTRY_MULTIPLES[industry]
 
-    # --- Úprava podľa počtu rokov podnikania ---
+    #Úprava podľa počtu rokov podnikania
     if years_in_business >= 10:
         years_adjustment = 1.10
         years_note = "10 a viac rokov podnikania zvyšuje násobok (nižšie vnímané riziko)."
@@ -134,7 +129,7 @@ def calculate_valuation(revenue, ebitda, net_profit, industry, years_in_business
         years_adjustment = 0.85
         years_note = "menej ako 5 rokov podnikania znižuje násobok (vyššie vnímané riziko)."
 
-    # --- Úprava podľa EBITDA marže (tu do výpočtu vstupujú tržby) ---
+    # Úprava podľa EBITDA marže (tu do výpočtu vstupujú tržby
     margin = (ebitda / revenue) if revenue > 0 else 0
     if margin >= 0.20:
         margin_adjustment = 1.10
@@ -195,7 +190,7 @@ def main_app():
             "Poskytuje rýchly indikatívny odhad trhovej hodnoty malej "
             "firmy na základe zjednodušeného oceňovacieho modelu."
         )
-        st.write("Autor: Adrián")
+        st.write("Autor: Adrián Textor")
         st.divider()
         st.write(f"Prihlásený ako: **{DEMO_USERNAME}**")
         if st.button("Odhlásiť sa"):
